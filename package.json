@@ -1,0 +1,22 @@
+{
+  "name": "nw-scrape",
+  "version": "1.0.0",
+  "description": "Hello world",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Daniel-Marcelo/nw-scrape.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Daniel-Marcelo/nw-scrape/issues"
+  },
+  "homepage": "https://github.com/Daniel-Marcelo/nw-scrape#readme",
+  "dependencies": {
+    "cypress": "^14.5.3"
+  }
+}
