@@ -1,5 +1,4 @@
 const { defineConfig } = require('cypress');
-const { savePriceToFirestore } = require('./firebaseService');
 
 module.exports = defineConfig({
   e2e: {
