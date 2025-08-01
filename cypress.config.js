@@ -1,13 +1,16 @@
 const { defineConfig } = require('cypress');
+const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
+const admin = require('firebase-admin');
+
+let db; // keep reference for reuse
+
 
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on) {
       on('task', {
         async savePriceToFirebase(data) {
-          const admin = require('firebase-admin');
-
-          console.log("DATA PRINT", data);
           if (!process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
             throw new Error("FIREBASE_SERVICE_ACCOUNT_JSON is not set");
           }
