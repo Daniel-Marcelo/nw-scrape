@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Daniel-Marcelo/nw-scrape#readme",
   "dependencies": {
-    "cypress": "^14.5.3"
+    "cypress": "^14.5.3",
+    "firebase-admin": "^13.4.0"
   }
 }
