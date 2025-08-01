@@ -22,6 +22,8 @@ jobs:
         run: npm ci
 
       - name: Run Cypress tests
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
         run: npx cypress run
       - name: Upload Cypress videos
         if: failure()
