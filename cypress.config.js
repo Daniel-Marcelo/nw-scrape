@@ -11,6 +11,8 @@ module.exports = defineConfig({
     setupNodeEvents(on) {
       on('task', {
         async savePriceToFirebase(data) {
+          const { symbol, price } = data;
+          console.log('Symbol', symbol, 'price', price);
           if (!process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
             throw new Error("FIREBASE_SERVICE_ACCOUNT_JSON is not set");
           }
