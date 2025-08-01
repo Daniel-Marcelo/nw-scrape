@@ -1,6 +1,6 @@
 
 describe('Fetch stock price from TradingView', () => {
-  const tickers = ['AAPL', 'VWRP', 'VHVG'];
+  const tickers = ['AAPL', 'VWRP', 'VHVG', 'GOOG', 'FB'];
   tickers.forEach(ticker => {
 
     it('gets price and saves to Firebase', () => {
