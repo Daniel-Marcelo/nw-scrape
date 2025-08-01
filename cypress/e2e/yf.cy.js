@@ -1,9 +1,10 @@
-const tickers = ['AAPL', 'VWRP', 'VHVG'];
-tickers.forEach(ticker => {
 
-  describe('Fetch', ticker,'  stock price from TradingView', () => {
+describe('Fetch stock price from TradingView', () => {
+  const tickers = ['AAPL', 'VWRP', 'VHVG'];
+  tickers.forEach(ticker => {
+
     it('gets price and saves to Firebase', () => {
-      cy.visit('https://www.tradingview.com/symbols/'+ticker+'/', {
+      cy.visit('https://www.tradingview.com/symbols/' + ticker + '/', {
         timeout: 15000,
         waitUntil: 'domcontentloaded',
       });
