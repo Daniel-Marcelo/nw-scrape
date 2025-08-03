@@ -26,29 +26,37 @@ module.exports = defineConfig({
           }
 
           const db = getFirestore();
-
           const timestamp = new Date();
           const isoTimestamp = timestamp.toISOString();
 
-          // Update the top-level stock doc with latest price
-          await db.collection('stocks').doc(symbol).set({
+          const stockRef = db.collection('stocks').doc(symbol);
+          const stockDoc = await stockRef.get();
+
+          // Check latest price
+          if (stockDoc.exists) {
+            const latestPrice = stockDoc.data().latestPrice;
+            if (latestPrice === price) {
+              console.log(`Price unchanged for ${symbol} (${price}). Skipping write.`);
+              return null;  // Skip writing if no change
+            }
+          }
+
+          // Price changed or new stock, proceed to write
+          await stockRef.set({
             symbol,
             latestPrice: price,
             lastUpdated: admin.firestore.Timestamp.fromDate(timestamp),
           }, { merge: true });
 
-          // Add a new entry to the price history subcollection
-          await db.collection('stocks')
-            .doc(symbol)
-            .collection('prices')
-            .doc(isoTimestamp) // use timestamp as doc ID
-            .set({
-              price,
-              timestamp: admin.firestore.Timestamp.fromDate(timestamp),
-            });
+          await stockRef.collection('prices').doc(isoTimestamp).set({
+            price,
+            timestamp: admin.firestore.Timestamp.fromDate(timestamp),
+          });
 
+          console.log(`Price updated for ${symbol}: ${price}`);
           return null;
         }
+
       });
     },
   },
