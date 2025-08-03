@@ -6,7 +6,6 @@ describe('Fetch stock price from TradingView', () => {
     it('gets price and saves to Firebase', () => {
       cy.visit('https://www.tradingview.com/symbols/' + ticker + '/', {
         timeout: 15000,
-        waitUntil: 'domcontentloaded',
       });
 
       // Retry-safe function to wait for the price element
