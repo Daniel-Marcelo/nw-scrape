@@ -9,6 +9,7 @@ let db; // keep reference for reuse
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on) {
+      config.env.SYMBOLS_BATCH = process.env.SYMBOLS_BATCH || '';
       on('task', {
         async savePriceToFirebase(data) {
           const { symbol, price } = data;
@@ -58,6 +59,8 @@ module.exports = defineConfig({
         }
 
       });
+
+      return config;
     },
   },
 });
