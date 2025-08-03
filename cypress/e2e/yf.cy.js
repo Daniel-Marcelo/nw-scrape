@@ -32,6 +32,7 @@ describe('Fetch stock price from TradingView', () => {
 
       waitForTradingViewPrice(priceSelector).then(($el) => {
         const text = $el[0].textContent;
+        if(!text) console.log('text value is falsy', text)
         const price = parseFloat(text.replace(',', ''));
         console.log('text', text);
         console.log('price', price)
