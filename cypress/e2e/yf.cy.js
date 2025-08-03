@@ -8,7 +8,7 @@ describe('Fetch stock price from TradingView', () => {
   tickers.forEach(ticker => {
 
     it('gets price and saves to Firebase', () => {
-      cy.visit('  ' + ticker + '/', {
+      cy.visit('https://www.tradingview.com/symbols/' + ticker + '/', {
         timeout: 15000,
         waitUntil: 'domcontentloaded',
       });
