@@ -6,21 +6,23 @@ describe('Fetch stock price from TradingView', () => {
     it('gets price and saves to Firebase', () => {
       cy.visit('https://www.tradingview.com/symbols/' + ticker + '/', {
         timeout: 15000,
+        waitUntil: 'domcontentloaded',
       });
 
-      // Retry-safe function to wait for the price element
-      function waitForTradingViewPrice(selector, maxAttempts = 10) {
+      function waitForTradingViewPrice(selector, maxAttempts = 20) {
         let attempts = 0;
         const check = () => {
           return cy.document().then((doc) => {
             const el = doc.querySelector(selector);
-            if (el) {
+            const text = el?.textContent?.trim();
+
+            if (el && text) {
               return cy.wrap(el);
             } else if (attempts++ < maxAttempts) {
-              cy.log(`Waiting for price element... (${attempts})`);
+              cy.log(`Waiting for valid price element... (${attempts})`);
               return Cypress.Promise.delay(2000).then(check);
             } else {
-              throw new Error(`Could not find price element after ${maxAttempts} attempts`);
+              throw new Error(`Could not get valid price text after ${maxAttempts} attempts`);
             }
           });
         };
@@ -31,7 +33,7 @@ describe('Fetch stock price from TradingView', () => {
 
       waitForTradingViewPrice(priceSelector).then(($el) => {
         const text = $el[0].textContent;
-        if(!text) throw new Error('Text is false')
+        if (!text) cy.log('text value is falsy', text)
         const price = parseFloat(text.replace(',', ''));
         console.log('text', text);
         console.log('price', price)
