@@ -1,11 +1,12 @@
 
+const symbolsBatch = (Cypress.env('SYMBOLS_BATCH') || '').split(',');
+
+console.log('Tickers loaded', symbolsBatch);
+
 describe('Fetch stock price from TradingView', () => {
-  const tickers = [
-    "VHVG", "VFEG", "VWRP", "O", "VICI",
-    "VWRL", "VUSA", "VEVE", "VFEM", "AMZN",
-    "AAPL", "VUAG", "GOOGL", "MSFT", "TSLA", "GOOG"
-  ];
-  tickers.forEach(ticker => {
+
+  symbolsBatch.forEach(ticker => {
+    console.log('Ticker ', ticker)
 
     it('gets price and saves to Firebase', () => {
       cy.visit('https://www.tradingview.com/symbols/' + ticker + '/', {
