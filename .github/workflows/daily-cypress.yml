@@ -41,4 +41,4 @@ jobs:
         env:
           FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
           SYMBOLS_BATCH: ${{ matrix.symbolsBatch }}
-        run: npx cypress run --env SYMBOLS_BATCH="${{ matrix.symbolsBatch }}"
+        run: npx cypress run --env "SYMBOLS_BATCH='${{ matrix.symbolsBatch }}'"
