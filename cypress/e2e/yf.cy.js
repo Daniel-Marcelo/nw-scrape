@@ -1,10 +1,17 @@
 
 describe('Fetch stock price from TradingView', () => {
-  const tickers = [
-    "VHVG", "VFEG", "VWRP", "O", "VICI",
-    "VWRL", "VUSA", "VEVE", "VFEM", "AMZN",
-    "AAPL", "VUAG", "GOOGL", "MSFT", "TSLA", "GOOG"
-  ];
+const tickers = [
+  "VHVG", "VFEG", "VWRP", "O", "VICI",
+  "VWRL", "VUSA", "VEVE", "VFEM", "AMZN",
+  "AAPL", "VUAG", "GOOGL", "MSFT", "TSLA", "GOOG",
+  "NVDA", "META", "BRK.B", "LLY", "AVGO",
+  "UNH", "JPM", "JNJ", "XOM", "V",
+  "MA", "PG", "HD", "COST", "MRK",
+  "PEP", "ABBV", "ORCL", "CVX", "WMT",
+  "NVS", "ASML", "NSRGY", "BABA", "TM",
+  "SONY", "TCEHY", "RIO", "BP", "SHEL",
+  "TSM", "SAP", "AIR.PA", "RACE", "LVMUY"
+];
   tickers.forEach(ticker => {
 
     it('gets price and saves to Firebase', () => {
