@@ -1,5 +1,5 @@
 
-const symbolsBatch = (process.env('SYMBOLS_BATCH') || '').split(',');
+const symbolsBatch = (Cypress.env('SYMBOLS_BATCH') || '').split(',');
 
 console.log('Tickers loaded', symbolsBatch);
 
