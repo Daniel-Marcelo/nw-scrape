@@ -56,12 +56,12 @@ async function fetchQuote(ticker) {
 
   // longName is the full company name; shortName is often an abbreviated or ticker-like value
   const name = longName ?? shortName ?? null;
-  return { price, name };
+  return { price, name, currency };
 }
 
 async function fetchAndSave(ticker) {
   try {
-    const { price, name } = await fetchQuote(ticker);
+    const { price, name, currency } = await fetchQuote(ticker);
 
     if (!price || price === 0) {
       console.log(`[firebase] ${ticker} — no price returned, skipping`);
@@ -90,8 +90,9 @@ async function fetchAndSave(ticker) {
       lastUpdated: admin.firestore.Timestamp.fromDate(timestamp),
     };
     if (name) docData.name = name;
+    if (currency) docData.currency = currency;
 
-    console.log(`[firebase] ${ticker} — writing stocks/${ticker} with price=${price}${name ? ` name="${name}"` : ''}`);
+    console.log(`[firebase] ${ticker} — writing stocks/${ticker} with price=${price}${name ? ` name="${name}"` : ''}${currency ? ` currency=${currency}` : ''}`);
     await stockRef.set(docData, { merge: true });
     console.log(`[firebase] ${ticker} — stocks/${ticker} written`);
 
