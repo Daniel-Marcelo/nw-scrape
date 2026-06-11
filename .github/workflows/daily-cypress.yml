@@ -1,12 +1,12 @@
-name: Cypress Price Fetch
+name: Daily Price Fetch
 
 on:
   schedule:
-    - cron: "0 10 * * 1-5" # Once a day at 10am, Mon-Fri
+    - cron: "0 10 * * 1-5" # Once a day at 10am UTC, Mon-Fri
   workflow_dispatch:
 
 jobs:
-  cypress-run:
+  fetch-prices:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress tests
+      - name: Fetch prices and save to Firebase
         env:
           FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-        run: npx cypress run
+        run: node fetch-prices.js
