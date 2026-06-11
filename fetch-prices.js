@@ -47,11 +47,15 @@ async function fetchQuote(ticker) {
   }
 
   const price = result.meta?.regularMarketPrice ?? result.meta?.previousClose ?? null;
-  const name = result.meta?.longName ?? result.meta?.shortName ?? null;
+  const longName = result.meta?.longName ?? null;
+  const shortName = result.meta?.shortName ?? null;
   const currency = result.meta?.currency ?? null;
   const marketState = result.meta?.marketState ?? null;
 
-  console.log(`[yahoo] ${ticker} — price=${price} currency=${currency} marketState=${marketState} name="${name}"`);
+  console.log(`[yahoo] ${ticker} — price=${price} currency=${currency} marketState=${marketState} longName="${longName}" shortName="${shortName}"`);
+
+  // longName is the full company name; shortName is often an abbreviated or ticker-like value
+  const name = longName ?? shortName ?? null;
   return { price, name };
 }
 
