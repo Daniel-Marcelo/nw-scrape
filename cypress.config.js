@@ -12,7 +12,7 @@ module.exports = defineConfig({
       config.env.SYMBOLS_BATCH = process.env.SYMBOLS_BATCH || '';
       on('task', {
         async savePriceToFirebase(data) {
-          const { symbol, price } = data;
+          const { symbol, price, title } = data;
           console.log(`[firebase] savePriceToFirebase called — symbol=${symbol} price=${price}`);
 
           if (!process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
@@ -53,12 +53,14 @@ module.exports = defineConfig({
             }
           }
 
-          console.log(`[firebase] writing updated price for ${symbol}: ${price}`);
-          await stockRef.set({
+          console.log(`[firebase] writing updated price for ${symbol}: ${price}${title ? ` title="${title}"` : ''}`);
+          const docData = {
             symbol,
             latestPrice: price,
             lastUpdated: admin.firestore.Timestamp.fromDate(timestamp),
-          }, { merge: true });
+          };
+          if (title) docData.name = title;
+          await stockRef.set(docData, { merge: true });
           console.log(`[firebase] stocks/${symbol} doc written`);
 
           await stockRef.collection('prices').doc(isoTimestamp).set({

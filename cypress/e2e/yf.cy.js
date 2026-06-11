@@ -63,7 +63,24 @@ const tickers = [
         if (!text) cy.log('text value is falsy');
         const price = parseFloat(text.replace(/,/g, ''));
         cy.log(`[price] ticker=${ticker} selector="${matchedSelector}" rawText="${text}" parsed=${price}`);
-        cy.task('savePriceToFirebase', { symbol: ticker, price });
+
+        // Scrape company name — try known stable selectors then fall back to <h1>
+        const titleSelectors = [
+          '[class*="js-symbol-description"]',
+          '[class*="symbolName"]',
+          '[class*="title-qWnJ9M1C"]',
+          'h1',
+        ];
+        return cy.document().then((doc) => {
+          let title = null;
+          for (const sel of titleSelectors) {
+            const el = doc.querySelector(sel);
+            const t = el?.textContent?.trim();
+            if (t) { title = t; cy.log(`[title] matched "${sel}" → "${t}"`); break; }
+          }
+          if (!title) cy.log('[title] no title found, saving price only');
+          cy.task('savePriceToFirebase', { symbol: ticker, price, title });
+        });
       });
     });
   });
