@@ -13,14 +13,25 @@ const tickers = [
         waitUntil: 'domcontentloaded',
       });
 
-      function waitForTradingViewPrice(selector, maxAttempts = 20) {
+      // TradingView uses hashed CSS module class names that change on every deploy.
+      // Target the stable semantic js- classes instead.
+      const priceSelectors = [
+        'span.js-symbol-last > span',
+        '[class*="js-symbol-last"] > span',
+        'div.js-symbol-page-header-root [class*="last"] span',
+      ];
+
+      function waitForAnyPrice(selectors, maxAttempts = 20) {
         let attempts = 0;
         const check = () => {
           return cy.document().then((doc) => {
-            const el = doc.querySelector(selector);
+            let el = null;
+            for (const sel of selectors) {
+              el = doc.querySelector(sel);
+              if (el && el.textContent?.trim()) break;
+            }
             const text = el?.textContent?.trim();
-
-            if (el && text) {
+            if (el && text && !isNaN(parseFloat(text.replace(/,/g, '')))) {
               return cy.wrap(el);
             } else if (attempts++ < maxAttempts) {
               cy.log(`Waiting for valid price element... (${attempts})`);
@@ -33,12 +44,10 @@ const tickers = [
         return check();
       }
 
-      const priceSelector = '#js-category-content > div.tv-react-category-header > div.js-symbol-page-header-root > div > div > div > div.quotesRow-iJMmXWiA > div:nth-child(1) > div > div.lastContainer-zoF9r75I > span.last-zoF9r75I.js-symbol-last > span';
-
-      waitForTradingViewPrice(priceSelector).then(($el) => {
+      waitForAnyPrice(priceSelectors).then(($el) => {
         const text = $el[0].textContent;
         if (!text) cy.log('text value is falsy', text)
-        const price = parseFloat(text.replace(',', ''));
+        const price = parseFloat(text.replace(/,/g, ''));
         console.log('text', text);
         console.log('price', price)
         cy.log(`TradingView price: $${price}`);
