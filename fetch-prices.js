@@ -46,22 +46,23 @@ async function fetchQuote(ticker) {
     throw new Error(`No result in response${error ? ` — ${JSON.stringify(error)}` : ''}`);
   }
 
-  const price = result.meta?.regularMarketPrice ?? result.meta?.previousClose ?? null;
-  const longName = result.meta?.longName ?? null;
-  const shortName = result.meta?.shortName ?? null;
-  const currency = result.meta?.currency ?? null;
-  const marketState = result.meta?.marketState ?? null;
+  const meta = result.meta ?? {};
+  const price = meta.regularMarketPrice ?? meta.previousClose ?? null;
+  const longName = meta.longName ?? null;
+  const shortName = meta.shortName ?? null;
+  const currency = meta.currency ?? null;
+  const marketState = meta.marketState ?? null;
 
   console.log(`[yahoo] ${ticker} — price=${price} currency=${currency} marketState=${marketState} longName="${longName}" shortName="${shortName}"`);
+  console.log(`[yahoo] ${ticker} — raw meta keys: ${Object.keys(meta).join(', ')}`);
 
-  // longName is the full company name; shortName is often an abbreviated or ticker-like value
   const name = longName ?? shortName ?? null;
-  return { price, name, currency };
+  return { price, name, currency, meta };
 }
 
 async function fetchAndSave(ticker) {
   try {
-    const { price, name, currency } = await fetchQuote(ticker);
+    const { price, name, currency, meta } = await fetchQuote(ticker);
 
     if (!price || price === 0) {
       console.log(`[firebase] ${ticker} — no price returned, skipping`);
@@ -91,6 +92,7 @@ async function fetchAndSave(ticker) {
     };
     if (name) docData.name = name;
     if (currency) docData.currency = currency;
+    docData.meta = meta;
 
     console.log(`[firebase] ${ticker} — writing stocks/${ticker} with price=${price}${name ? ` name="${name}"` : ''}${currency ? ` currency=${currency}` : ''}`);
     await stockRef.set(docData, { merge: true });
