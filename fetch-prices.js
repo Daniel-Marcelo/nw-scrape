@@ -6,9 +6,28 @@ const LSE_TICKERS = new Set([
 ]);
 
 const TICKERS = [
-  "VHVG", "VFEG", "VWRP", "O", "VICI",
-  "VWRL", "VUSA", "VEVE", "VFEM", "AMZN",
-  "AAPL", "VUAG", "GOOGL", "MSFT", "TSLA", "GOOG",
+  // Personal holdings
+  "VHVG", "VFEG", "VWRP", "VWRL", "VUSA", "VEVE", "VFEM", "VUAG",
+  "O", "VICI",
+  // Top 200 S&P 500 by market cap
+  "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "GOOG", "META", "TSLA", "BRK.B", "AVGO",
+  "JPM", "LLY", "V", "UNH", "XOM", "MA", "COST", "HD", "PG", "NFLX",
+  "JNJ", "CRM", "BAC", "ABBV", "WMT", "MRK", "CVX", "ORCL", "KO", "AMD",
+  "ACN", "PEP", "LIN", "TMO", "MCD", "CSCO", "ABT", "GE", "IBM", "TXN",
+  "NOW", "PM", "GS", "ISRG", "INTU", "BKNG", "CAT", "RTX", "SPGI", "DHR",
+  "AMGN", "LOW", "T", "VRTX", "NEE", "PLD", "BLK", "BSX", "AXP", "UBER",
+  "MS", "SYK", "ETN", "SCHW", "GILD", "CB", "ADI", "DE", "PGR", "PANW",
+  "AMAT", "MU", "REGN", "ADP", "LRCX", "SO", "CI", "DUK", "TJX", "ZTS",
+  "CME", "MMC", "CL", "EOG", "WFC", "BMY", "ITW", "MCO", "AON", "KLAC",
+  "ICE", "NOC", "SLB", "CTAS", "GD", "USB", "PH", "EMR", "FCX", "CEG",
+  "WM", "APH", "CDNS", "SNPS", "HCA", "TT", "MMM", "MSI", "ROP", "WELL",
+  "MCK", "ECL", "COF", "ELV", "ORLY", "FDX", "PSA", "OKE", "CARR", "AJG",
+  "PCAR", "TDG", "HLT", "ADSK", "AFL", "FICO", "VRSK", "SHW", "NKE", "IDXX",
+  "FAST", "KMB", "ALL", "BDX", "PAYX", "PCG", "AEP", "DLR", "CCI", "EW",
+  "CSGP", "MNST", "RSG", "PPG", "IQV", "MCHP", "PRU", "CPRT", "FANG", "PSX",
+  "VLO", "XEL", "WEC", "IR", "OTIS", "GEHC", "MTD", "GLW", "DOW", "LHX",
+  "HPQ", "DD", "WAB", "ODFL", "AME", "NXPI", "HPE", "KDP", "TROW", "GIS",
+  "CTSH", "MPWR", "ON", "DVN", "EXC", "ROK", "EFX", "HAL", "NUE", "TSCO",
 ];
 
 if (!process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
@@ -26,7 +45,13 @@ if (!admin.apps.length) {
 }
 const db = admin.firestore();
 
+// Tickers whose Yahoo Finance symbol differs from the standard ticker
+const YAHOO_SYMBOL_MAP = {
+  "BRK.B": "BRK-B",
+};
+
 function yahooSymbol(ticker) {
+  if (YAHOO_SYMBOL_MAP[ticker]) return YAHOO_SYMBOL_MAP[ticker];
   return LSE_TICKERS.has(ticker) ? `${ticker}.L` : ticker;
 }
 
