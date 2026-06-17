@@ -9,6 +9,9 @@ const TICKERS = [
   // Personal holdings
   "VHVG", "VFEG", "VWRP", "VWRL", "VUSA", "VEVE", "VFEM", "VUAG",
   "O", "VICI",
+  // Additional personal holdings
+  "ROKU", "CRCL", "ACHR", "PLTR", "COIN", "HOOD", "TWST", "TEM",
+  "GTLB", "CRSP", "RBLX", "PYPL", "TER", "MSTR", "SHOP", "XYZ", "ABNB",
   // Top 200 S&P 500 by market cap
   "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "GOOG", "META", "TSLA", "BRK.B", "AVGO",
   "JPM", "LLY", "V", "UNH", "XOM", "MA", "COST", "HD", "PG", "NFLX",
