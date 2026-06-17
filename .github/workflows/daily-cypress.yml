@@ -2,9 +2,7 @@ name: Daily Price Fetch
 
 on:
   schedule:
-    - cron: "0 8 * * 1-5"  # 8am UTC Mon-Fri (market open)
-    - cron: "0 13 * * 1-5" # 1pm UTC Mon-Fri (midday)
-    - cron: "0 21 * * 1-5" # 9pm UTC Mon-Fri (after US close)
+    - cron: "0 * * * 1-5"  # Every hour Mon-Fri
   workflow_dispatch:
 
 jobs:
