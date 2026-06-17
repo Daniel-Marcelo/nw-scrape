@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 // Tickers that trade on the London Stock Exchange need the .L suffix for Yahoo Finance
 const LSE_TICKERS = new Set([
   "VHVG", "VFEG", "VWRP", "VWRL", "VUSA", "VEVE", "VFEM", "VUAG",
+  "CSPX", "SWDA", "HMWO", "IGLT", "ISF",
 ]);
 
 const TICKERS = [
@@ -12,6 +13,17 @@ const TICKERS = [
   // Additional personal holdings
   "ROKU", "CRCL", "ACHR", "PLTR", "COIN", "HOOD", "TWST", "TEM",
   "GTLB", "CRSP", "RBLX", "PYPL", "TER", "MSTR", "SHOP", "XYZ", "ABNB",
+  // Popular growth/tech
+  "NET", "DDOG", "SNOW", "PATH", "ZS", "CRWD", "MDB", "TTD", "HUBS",
+  "SPOT", "DUOL", "APP", "RXRX", "ASAN", "BILL", "GLBE", "CELH",
+  // UK/EU ETFs (LSE)
+  "CSPX", "SWDA", "HMWO", "IGLT", "ISF",
+  // Popular UK retail holdings
+  "ARM", "RIVN", "LCID", "SOFI", "IONQ", "RGTI", "SOUN", "LUNR", "RKT",
+  // Crypto-adjacent ETFs
+  "IBIT", "FBTC", "ARKK", "ARKB",
+  // Missing S&P 500
+  "SRE", "TMUS", "WBA", "F", "GM", "INTC", "QCOM", "TFC", "COP",
   // Top 200 S&P 500 by market cap
   "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "GOOG", "META", "TSLA", "BRK.B", "AVGO",
   "JPM", "LLY", "V", "UNH", "XOM", "MA", "COST", "HD", "PG", "NFLX",
