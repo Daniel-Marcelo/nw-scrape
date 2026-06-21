@@ -2,7 +2,7 @@ name: Daily Price Fetch
 
 on:
   schedule:
-    - cron: "0 9,11,13,15,17,19,21 * * 1-5"  # Every 2 hours, 9am-9pm UTC Mon-Fri
+    - cron: "0 8,12,16,20 * * 1-5"  # 4x daily: 8am, 12pm, 4pm, 8pm UTC Mon-Fri
   workflow_dispatch:
 
 jobs:
